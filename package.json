@@ -6,10 +6,10 @@
     "build": "tsc",
     "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslints . --ext .ts",
+    "lint": "eslint \"src/**/*.ts\"",
     "prettier": "prettier --ignore-path .gitignore --write 'src/**/*.{ts,js,tsx,jsx}'",
     "prettier:fix": "npx prettier --write src",
-    "lint:fix": "npm run lint --fix"
+    "lint:fix": "eslint \"src/**/*.ts\" --fix"
   },
   "keywords": [],
   "author": "",

@@ -1,27 +1,39 @@
-import pluginJs from "@eslint/js";
-import globals from "globals";
-import tseslint from "typescript-eslint";
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
 
-/** @type {import('eslint').Linter.Config[]} */
 export default [
-  {
-    files: ["**/*.{js,mjs,cjs,ts}"],
-    languageOptions: {
-      globals: globals.browser,
-    },
-  },
-  pluginJs.configs.recommended,
+  // JS recommended config
+  js.configs.recommended,
+  
+  // TypeScript config
   ...tseslint.configs.recommended,
+  
+  // Custom config
   {
+    files: ['**/*.{js,mjs,cjs,ts}'],
+    ignores: ['node_modules/**', 'dist/**'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        console: true,
+        process: true,
+      },
+      parser: tseslint.parser,
+      parserOptions: {
+        project: './tsconfig.json'
+      },
+    },
+    plugins: {
+      '@typescript-eslint': tseslint.plugin
+    },
     rules: {
-      "no-unused-vars": "error",        // Disallow unused variables
-      "no-unused-expressions": "error", // Disallow unused expressions
-      "prefer-const": "error",          // Enforce usage of const where possible
-      "no-console": "warn",             // Warn on console usage
-      "no-undef": "error",             // Disallow usage of undefined variables
-    },
-    globals: {
-      process: "readonly",             // Allow process to be used but not modified
-    },
-  },
+      'no-unused-vars': 'error',
+      'no-unused-expressions': 'error',
+      'prefer-const': 'error',
+      'no-console': 'warn',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/explicit-module-boundary-types': 'warn'
+    }
+  }
 ];
