@@ -1,14 +1,17 @@
-import cors from 'cors';
-import express from 'express';
-import { bookRoutes } from './app/routes/bookRoutes';
+import { Router } from 'express';
 
-const app = express();
+const router = Router();
 
-// Middlewares
-app.use(express.json());
-app.use(cors());
+// Define your routes here
+router.get('/', (req, res) => {
+  res.send('List of books');
+});
 
-// Routes
-app.use('/api/books', bookRoutes);
+// Add more routes for specific actions (e.g., get a single book, create a book, etc.)
+// Example for a route to fetch a book by ID:
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
+  res.send(`Book with ID: ${id}`);
+});
 
-export default app;
+export { router as bookRoutes };
