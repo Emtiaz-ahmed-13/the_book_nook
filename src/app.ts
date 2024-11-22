@@ -1,10 +1,13 @@
 import { Router } from 'express';
+import app from './server';
 
 const router = Router();
 
 // Define your routes here
-router.get('/', (req, res) => {
-  res.send('List of books');
+app.get('/', (req, res) => {
+  res.send(
+    '<h1>Welcome to The Book Nook</h1><p>Explore our collection of books!</p>',
+  );
 });
 
 // Add more routes for specific actions (e.g., get a single book, create a book, etc.)
