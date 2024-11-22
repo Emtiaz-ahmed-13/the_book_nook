@@ -1,39 +1,38 @@
-import js from '@eslint/js';
+import { FlatCompat } from '@eslint/eslintrc';
+import path from 'path';
 import tseslint from 'typescript-eslint';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
 
 export default [
-  // JS recommended config
-  js.configs.recommended,
-  
-  // TypeScript config
   ...tseslint.configs.recommended,
-  
-  // Custom config
+  ...compat.extends('plugin:@typescript-eslint/recommended'),
   {
-    files: ['**/*.{js,mjs,cjs,ts}'],
-    ignores: ['node_modules/**', 'dist/**'],
+    files: ['src/**/*.ts'],
+    ignores: ['dist/**', 'node_modules/**'],
     languageOptions: {
-      ecmaVersion: 2022,
-      sourceType: 'module',
-      globals: {
-        console: true,
-        process: true,
-      },
       parser: tseslint.parser,
       parserOptions: {
-        project: './tsconfig.json'
+        project: './tsconfig.json',
+        ecmaVersion: 'latest',
+        sourceType: 'module',
       },
     },
     plugins: {
-      '@typescript-eslint': tseslint.plugin
+      '@typescript-eslint': tseslint.plugin,
     },
     rules: {
-      'no-unused-vars': 'error',
-      'no-unused-expressions': 'error',
-      'prefer-const': 'error',
-      'no-console': 'warn',
       '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/explicit-module-boundary-types': 'warn'
-    }
-  }
+      '@typescript-eslint/explicit-module-boundary-types': 'warn',
+      'no-console': 'warn',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['error'],
+    },
+  },
 ];

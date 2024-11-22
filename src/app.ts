@@ -1,14 +1,14 @@
 import cors from 'cors';
-import express, { Application, Request, Response } from 'express';
-const app: Application = express();
-// const port = 3001;
+import express from 'express';
+import { bookRoutes } from './app/routes/bookRoutes';
 
-// parsers
+const app = express();
+
+// Middlewares
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World! i am learning frence language');
-});
+// Routes
+app.use('/api/books', bookRoutes);
 
 export default app;
