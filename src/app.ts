@@ -1,7 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import { bookRoutes } from './app/routes/bookRoutes';
-
+//
 const app = express();
 
 // Middlewares
@@ -14,5 +14,6 @@ app.get('/', (req, res) => {
 
 // Routes
 app.use('/api/books', bookRoutes);
+//app.use('/api/orders', OrderRoutes);
 
 export default app;

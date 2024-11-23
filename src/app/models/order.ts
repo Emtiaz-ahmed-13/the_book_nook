@@ -1,23 +1,24 @@
-import { Schema, model } from 'mongoose';
-import { TOrder } from '../types/order';
+import mongoose, { Schema, Document } from 'mongoose';
 
-const orderSchema = new Schema<TOrder>(
+export interface IOrder extends Document {
+  email: string;
+  product: mongoose.Types.ObjectId;
+  quantity: number;
+  totalPrice: number;
+}
+
+const OrderSchema: Schema = new Schema(
   {
-    userId: { type: String, required: true },
-    books: [
-      {
-        bookId: { type: Schema.Types.ObjectId, ref: 'Book', required: true },
-        quantity: { type: Number, required: true },
-      },
-    ],
-    totalAmount: { type: Number, required: true },
-    status: {
-      type: String,
-      enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
-      default: 'pending',
+    email: { type: String, required: true },
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+      required: true,
     },
+    quantity: { type: Number, required: true },
+    totalPrice: { type: Number, required: true },
   },
   { timestamps: true },
 );
 
-export const Order = model<TOrder>('Order', orderSchema);
+export const Order = mongoose.model<IOrder>('Order', OrderSchema);

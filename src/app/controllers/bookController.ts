@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import formateBookData from '../../helper/formateBookData';
 import { Book } from '../models/Book';
-import { bookValidationSchema } from '../validations/bookValidationSchema'; // Importing the validation schema
+import { bookValidationSchema } from '../validations/bookValidationSchema';
 
 // Get all books
 export const getBooks = async (req: Request, res: Response) => {
@@ -126,7 +126,7 @@ export const updateBook = async (req: Request, res: Response) => {
     res.status(200).json({
       message: 'Book updated successfully',
       success: true,
-      data: formateBookData(updatedBook), // Ensure to use the correct function
+      data: formateBookData(updatedBook),
     });
   } catch (error) {
     res.status(500).json({
