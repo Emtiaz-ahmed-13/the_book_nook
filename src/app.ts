@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 });
 
 // Routes
-app.use('/api/books', bookRoutes);
+app.use('/api/v1/books', bookRoutes);
 //app.use('/api/orders', OrderRoutes);
 
 export default app;
