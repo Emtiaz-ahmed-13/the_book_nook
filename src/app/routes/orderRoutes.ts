@@ -1,11 +1,11 @@
 import { Router } from 'express';
 
-import { getProductById } from '../controllers/getProductByIdController';
-import { calculateRevenue } from '../controllers/reveneuController';
+// import { createOrder } from '../controllers/orderController';
+// import { calculateRevenue } from '../controllers/reveneuController';
 
 const router = Router();
 
-router.post('/', getProductById);
-router.get('/revenue', calculateRevenue);
+// router.post('/', createOrder);
+// router.get('/revenue', calculateRevenue);
 
 export { router as orderRoutes };
