@@ -1,12 +1,11 @@
-import express from 'express';
-import { calculateRevenue, createOrder } from '../controllers/orderController';
+import { Router } from 'express';
 
-const router = express.Router();
+import { getProductById } from '../controllers/getProductByIdController';
+import { calculateRevenue } from '../controllers/reveneuController';
 
-// Route to create an order
-router.post('/', createOrder);
+const router = Router();
 
-// Route to calculate revenue
+router.post('/', getProductById);
 router.get('/revenue', calculateRevenue);
 
-export const orderRoutes = router;
+export { router as orderRoutes };

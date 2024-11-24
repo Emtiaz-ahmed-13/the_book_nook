@@ -1,12 +1,7 @@
 import express from 'express';
-import {
-  createProduct,
-  getProductById,
-} from '../controllers/productController';
+import { getProductById } from '../controllers/getProductByIdController';
 
 const router = express.Router();
-
-router.post('/', createProduct);
 
 router.get('/:productId', getProductById);
 

@@ -1,34 +1,6 @@
 import { Request, Response } from 'express';
 import { Product } from '../models/Product';
 
-// Create a new product
-export const createProduct = async (req: Request, res: Response) => {
-  const { name, price, quantity, inStock, category, description } = req.body;
-
-  try {
-    const newProduct = new Product({
-      name,
-      price,
-      quantity,
-      inStock,
-      category,
-      description,
-    });
-    await newProduct.save();
-
-    res.status(201).json({
-      message: 'Product created successfully',
-      status: true,
-      data: newProduct,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: 'Internal server error',
-      status: false,
-    });
-  }
-};
-
 // Fetch a product by its ID
 export const getProductById = async (req: Request, res: Response) => {
   const { productId } = req.params;

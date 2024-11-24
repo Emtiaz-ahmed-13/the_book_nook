@@ -1,80 +1,72 @@
-import { Request, Response } from 'express';
+// import { Request, Response } from 'express';
+// import { Book } from '../models/Book';
+// import { Order } from '../models/order';
+// import { createOrderSchema } from '../validations/orderValidationSchema';
 
-import { Order } from '../models/order';
-import { Product } from '../models/Product';
+// export const createOrder = async (req: Request, res: Response) => {
+//   try {
+//     // Validate request body
+//     const validatedData = createOrderSchema.parse(req.body);
+//     const { email, product: bookId, quantity } = validatedData;
 
-// Create an Order
-export const createOrder = async (req: Request, res: Response) => {
-  const { email, product, quantity, totalPrice } = req.body;
+//     // Check if the book exists
+//     const existingBook = await Book.findById(bookId);
 
-  try {
-    // Check if the product exists
-    const existingProduct = await Product.findById(product);
+//     if (!existingBook) {
+//       return res.status(404).json({
+//         message: 'Book not found',
+//         status: false,
+//       });
+//     }
 
-    if (!existingProduct) {
-      return res
-        .status(404)
-        .json({ message: 'Product not found', status: false });
-    }
+//     console.log('Book ID:', bookId);
+//     console.log('Existing Book:', existingBook);
 
-    // Check if there is enough stock
-    if (existingProduct.quantity < quantity) {
-      return res
-        .status(400)
-        .json({ message: 'Insufficient stock', status: false });
-    }
+//     // Check if there is enough stock
+//     if (existingBook.quantity < quantity) {
+//       return res.status(400).json({
+//         message: 'Insufficient stock',
+//         status: false,
+//       });
+//     }
 
-    // Create the order
-    const order = await Order.create({ email, product, quantity, totalPrice });
+//     // Create the order
+//     const order = await Order.create({
+//       email,
+//       product: bookId,
+//       quantity,
+//       totalPrice: existingBook.price * quantity, // Calculate total price based on book price
+//     });
 
-    // Update the product inventory
-    existingProduct.quantity -= quantity;
-    if (existingProduct.quantity === 0) {
-      existingProduct.inStock = false;
-    }
-    await existingProduct.save();
+//     // Log the created order for debugging
+//     console.log('Order Created:', order);
 
-    res.status(201).json({
-      message: 'Order created successfully',
-      status: true,
-      data: order,
-    });
-  } catch (error) {
-    res.status(500).json({ message: 'Internal server error', status: false });
-  }
-};
+//     // Update the book inventory
+//     existingBook.quantity -= quantity;
+//     if (existingBook.quantity === 0) {
+//       existingBook.inStock = false;
+//     }
+//     await existingBook.save();
 
-// Calculate Revenue
-export const calculateRevenue = async (_req: Request, res: Response) => {
-  try {
-    const revenue = await Order.aggregate([
-      {
-        $lookup: {
-          from: 'products',
-          localField: 'product',
-          foreignField: '_id',
-          as: 'productDetails',
-        },
-      },
-      {
-        $unwind: '$productDetails',
-      },
-      {
-        $group: {
-          _id: null,
-          totalRevenue: {
-            $sum: { $multiply: ['$quantity', '$productDetails.price'] },
-          },
-        },
-      },
-    ]);
-
-    res.status(200).json({
-      message: 'Revenue calculated successfully',
-      status: true,
-      data: { totalRevenue: revenue[0]?.totalRevenue || 0 },
-    });
-  } catch (error) {
-    res.status(500).json({ message: 'Internal server error', status: false });
-  }
-};
+//     // Respond with success message and order details
+//     res.status(201).json({
+//       message: 'Order created successfully',
+//       status: true,
+//       data: {
+//         _id: order._id.toString(),
+//         email: order.email,
+//         product: order.product,
+//         quantity: order.quantity,
+//         totalPrice: order.totalPrice,
+//         createdAt: order.createdAt,
+//         updatedAt: order.updatedAt,
+//       },
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({
+//       message: error instanceof Error ? error.message : 'Internal server error',
+//       status: false,
+//     });
+//   }
+// };
