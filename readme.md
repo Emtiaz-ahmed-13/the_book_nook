@@ -10,13 +10,14 @@ Welcome to **The Book Nook**, a haven for book lovers! Whether you're into chess
 2. [Core Technologies](#core-technologies)
 3. [Installation](#installation)
 4. [Environment Variables](#environment-variables)
+5. [Live Link](#live-link)
 
 ---
 
 ## ✨ Features
 
-1. Browse and view all available books.
-2. Perform full CRUD (Create, Read, Update, Delete) operations on books.
+- Users can browse and view all available books.
+- Users can perform full CRUD (Create, Read, Update, Delete) operations on books.
 
 ---
 
@@ -56,7 +57,6 @@ Follow these steps to set up the project locally:
 
 3. **Create a `.env` file**  
    In the root directory of the project, create a `.env` file and add the following environment variables:
-   ```plaintext
+
    PORT=<your_port_number>
    DATABASE_URL=<your_database_url>
-   ```
