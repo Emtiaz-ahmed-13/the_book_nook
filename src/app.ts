@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 });
 
 // Routes
-app.use('/api/v1/products', bookRoutes);
-app.use('/api/v1/orders', orderRoutes);
+app.use('/api/products', bookRoutes);
+app.use('/api/orders', orderRoutes);
 
 export default app;
