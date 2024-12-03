@@ -4,20 +4,35 @@ import { Book } from '../models/Book';
 import { bookValidationSchema } from '../validations/bookValidationSchema';
 
 // Get all books
+// Get all books or filter by title, author, or category
 export const getBooks = async (req: Request, res: Response) => {
   try {
-    const books = await Book.find();
+    const { searchTerm } = req.query;
+
+    let books;
+    if (searchTerm) {
+      const regex = new RegExp(searchTerm as string, 'i');
+
+      books = await Book.find({
+        $or: [
+          { title: { $regex: regex } },
+          { author: { $regex: regex } },
+          { category: { $regex: regex } },
+        ],
+      });
+    } else {
+      books = await Book.find();
+    }
     if (books.length === 0) {
       return res.status(404).json({
         success: false,
         message: 'No books found',
       });
     }
-
     res.status(200).json({
       success: true,
       message: 'Books retrieved successfully',
-      data: books.map(formateBookData),
+      data: books.map(formateBookData), // Format books data before sending according to given formate
     });
   } catch (error) {
     res.status(500).json({
